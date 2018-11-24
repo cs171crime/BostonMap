@@ -7,9 +7,9 @@ index,neighborhood,Marijuana,Heroin
 5,Brighton,1166,1870
 6,Charlestown,7020,22230
 7,Dorchester,207892,651286
-8,Downtown / Financial District,141114,265137
+8,Downtown,141114,265137
 9,East Boston,33264,51912
-10,Fenway / Kenmore / Audubon Circle / Longwood,36008,192786
+10,Fenway,36008,192786
 11,Greater Mattapan,19700,49300
 12,Hyde Park,10101,18564
 13,Jamaica Plain,53764,173830
@@ -18,6 +18,7 @@ index,neighborhood,Marijuana,Heroin
 16,Roslindale,5931,13362
 17,Roxbury,611935,2102187
 18,South Boston,9095,50745
-19,South Boston / South Boston Waterfront,126367,699503
+19,South Boston Waterfront,126367,699503
 20,South End,221055,1226111
 21,West Roxbury,3960,9450
+22,Longwood Medical Area,36008,192786

@@ -123,14 +123,25 @@ function updateChoropleth() {
         .attr("fill", function(d) {
             //return '#08306b';
             return retrievevalue(d, data_); })
+        .on("mouseover", function(d){
+            d3.select("h2").text(d.properties.name);
+            //d3.select(this).attr("class","incident hover");
+        })
+        .on("mouseout", function(d){
+            d3.select("h2").text("");
+            //d3.select(this).attr("class","incident");
+        });
+
+        /*
         .on('mouseover', function(d) {
                 // only show tooltip if we have data for this country
-                var countryData = getCountryData(d);
+                var countryData = retrievevalue(d);
                 if (countryData) {
                     tip.show(d);
                 }
             })
                 .on('mouseout', tip.hide);
+                */
 
 
     var legend = svg.selectAll('g.legry')
@@ -148,9 +159,9 @@ function updateChoropleth() {
     // draw colored boxes
     legend_
         .append('rect')
-        .attr("x", width - 580)
+        .attr("x", width - 270)
         .attr("y", function(d, i) {
-            return i * 20 +300;
+            return i * 20 +350;
         })
         .attr("width", 20)
         .attr("height", 20)
@@ -163,9 +174,9 @@ function updateChoropleth() {
     // draw legend label text
     legend_
         .append('text')
-        .attr("x", width-550 )
+        .attr("x", width-245 )
         .attr("y", function(d, i) {
-            return i * 20 +315;
+            return i * 20 +365;
         })
         .style("stroke", "black")
         .style("stroke-width", 1);
@@ -196,15 +207,66 @@ function updateChoropleth() {
     legend.exit().remove();
 
 
+
+
+
+    // TOOLTIP
+    tip.html(function(d) {
+        // show the country name and the relevant metric
+        var countryData = retrievevalue(d);
+        if (countryData !== null) {
+            // data found in our dataset
+            var metricData = countryData[data_];
+
+            // format this according to the metric
+            var format;
+            switch (data_) {
+                case "Heroin":
+                    format = d3.format("0,000");
+                    break;
+                case "Marijuana":
+                    format = d3.format("0.1f");
+                    break;
+            }
+            var metricString = format(metricData);
+
+            return countryData.neighborhood + ": " + metricString;
+        } else {
+            // no data, don't show anything in the tooltip
+            return null;
+        }
+    });
+
+
 }
 
 function grouptext(data_) {
-    if (data_ === "Heroin" || data_ === "Marijuana") {
-        return " reports"
+    if (data_ === "Heroin" ) {
+        return " Heroin reports"
     } else {
-        return "";
+        return " Marijuana reports";
     };
 }
+
+
+function calculateFill(d, data_) {
+    var countryData = retrievevalue(d);
+
+    if (countryData !== null) {
+        var metricValue = countryData[data_];
+        if (isNaN(metricValue)) {
+            // invalid data
+            return "black";
+        } else {
+            // all good, use the scale to calculate a fill color
+            return colorscale(metricValue);
+        }
+    } else {
+        // not found in dataset
+        return "black";
+    }
+}
+
 
 function retrievevalue(d, data_) {
     console.log('retrieve');
